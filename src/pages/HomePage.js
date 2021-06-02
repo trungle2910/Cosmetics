@@ -41,12 +41,13 @@ const HomePage = () => {
   };
   useEffect(() => {
     dispatch(authActions.getCurrentUser(accessToken));
+
     if (name !== "") {
       dispatch(productActions.getProducts(pageNum, limit, name));
-    }
-    if (category !== "") {
+    } else if (category !== "") {
       dispatch(productActions.getProducts(pageNum, limit, name, category));
-    } else {
+    }
+    if (name === "" && category === "") {
       dispatch(productActions.getProducts(pageNum, limit));
     }
   }, [dispatch, pageNum, limit, name, category, accessToken]);

@@ -24,6 +24,7 @@ const AddEditProductPage = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  console.log("adfaf", formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, description, price, salePrice, category, imageUrl } =
