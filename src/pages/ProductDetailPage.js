@@ -49,7 +49,7 @@ const ProductDetailPage = () => {
       {loading ? (
         <PacmanLoader color="#f4fc03" size={100} margin={20} />
       ) : (
-        <Container style={{ marginTop: "2vw" }}>
+        <Container style={{ marginTop: "2vw", width: "90vw" }}>
           <Row>
             <Col sm={6}>
               <img
@@ -86,7 +86,10 @@ const ProductDetailPage = () => {
             </Col>
           </Row>
           <Row>
-            <h1 className="detailTitle"> Recomment for you</h1>
+            <h1 className="detailTitle">
+              {" "}
+              Recomment for {singleProduct?.category}
+            </h1>
             <Slider {...settings} style={{ width: "100%" }}>
               {products.map((item) => (
                 <div
