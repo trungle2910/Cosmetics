@@ -8,14 +8,15 @@ import SearchForm from "../components/SearchForm";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import PaginationBar from "../components/PaginationBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
-import AddEditProductPage from "./AddEditProductPage";
+import { useHistory } from "react-router-dom";
 
 const AdminAllProductPage = () => {
   const products = useSelector((state) => state.product.products);
   const totalPageNum = useSelector((state) => state.product.totalPageNum);
   const loading = useSelector((state) => state.product.loading);
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -99,7 +100,13 @@ const AdminAllProductPage = () => {
                           {" "}
                           <FontAwesomeIcon icon={faTrashAlt} /> Delete{" "}
                         </Button>
-                        <AddEditProductPage productId={item._id} />
+                        <Button
+                          variant="outline-success"
+                          onClick={() => history.push(`/product/${item._id}`)}
+                        >
+                          {" "}
+                          <FontAwesomeIcon icon={faEdit} /> Edit{" "}
+                        </Button>
                       </td>
                     </tr>
                   );

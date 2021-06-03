@@ -1,6 +1,14 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Badge, Col, Container, Row } from "react-bootstrap";
+import {
+  Badge,
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productActions } from "../redux/actions/product.actions";
@@ -9,6 +17,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useHistory } from "react-router";
+import { authActions } from "../redux/actions/auth.actions";
+import AddEditProductPage from "./AddEditProductPage";
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -19,9 +29,32 @@ const ProductDetailPage = () => {
   const savePercent = useSelector((state) => state.product.savePercent);
   const products = useSelector((state) => state.product.products);
   const loading = useSelector((state) => state.product.loading);
+  const accessToken = useSelector((state) => state.auth.accessToken);
+  const currentUserData = useSelector((state) => state.auth.user);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
+  console.log("jo", productId);
   const history = useHistory();
 
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    salePrice: "",
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, description, price, salePrice } = formData;
+
+    dispatch(
+      productActions.editProduct(productId, name, description, price, salePrice)
+    );
+  };
   let pageNum = 1;
   let limit = 5;
 
@@ -30,11 +63,12 @@ const ProductDetailPage = () => {
   };
   useEffect(() => {
     dispatch(productActions.getSingleProduct(productId));
+    dispatch(authActions.getCurrentUser(accessToken));
 
     let category = singleProduct?.category;
     let name = "";
     dispatch(productActions.getProducts(pageNum, limit, name, category));
-  }, [dispatch, productId]);
+  }, []);
   const settings = {
     dots: false,
     infinite: true,
@@ -82,6 +116,76 @@ const ProductDetailPage = () => {
               </div>
               <div>
                 <p>{singleProduct?.description}</p>
+              </div>
+              <div className="text-center">
+                {currentUserData?.role === "admin" ? (
+                  <>
+                    <Button variant="outline-success" onClick={handleShow}>
+                      Edit Product
+                    </Button>
+
+                    <Modal show={show} onHide={handleClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>PRODUCT</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <Form onSubmit={handleSubmit}>
+                          <Form.Row>
+                            <Form.Group as={Col} controlId="formGridFirstName">
+                              <Form.Label> Name</Form.Label>
+                              <Form.Control
+                                name="name"
+                                onChange={handleChange}
+                                type="firstName"
+                                placeholder="Enter Name"
+                              />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="formGridLastName">
+                              <Form.Label>Normal Price</Form.Label>
+                              <Form.Control
+                                name="price"
+                                onChange={handleChange}
+                                type="lastName"
+                                placeholder=" Enter price"
+                              />
+                            </Form.Group>
+                          </Form.Row>
+
+                          <Form.Group controlId="formGridEmailAddress">
+                            <Form.Label>Sale Price</Form.Label>
+                            <Form.Control
+                              name="salePrice"
+                              onChange={handleChange}
+                              placeholder="Enter sale Price"
+                            />
+                          </Form.Group>
+
+                          <Form.Group controlId="formGridAddress">
+                            <Form.Label>description</Form.Label>
+                            <Form.Control
+                              name="description"
+                              onChange={handleChange}
+                              placeholder="Enter description"
+                              style={{ height: "100px" }}
+                            />
+                          </Form.Group>
+
+                          <Button variant="success" type="submit">
+                            Save Change
+                          </Button>
+                        </Form>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+                  </>
+                ) : (
+                  <div></div>
+                )}
               </div>
             </Col>
           </Row>

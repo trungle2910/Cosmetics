@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { productActions } from "../redux/actions/product.actions";
 import { authActions } from "../redux/actions/auth.actions";
 
-const AddEditProductPage = (productId) => {
+const AddEditProductPage = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.accessToken);
-
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -27,47 +26,29 @@ const AddEditProductPage = (productId) => {
     e.preventDefault();
     const { name, description, price, salePrice, category, imageUrl } =
       formData;
-    if (productId.length > 5) {
-      dispatch(
-        productActions.editProduct({
-          name,
-          description,
-          price,
-          salePrice,
-          category,
-          imageUrl,
-          productId: productId,
-        })
-      );
-    } else {
-      dispatch(
-        productActions.newProduct({
-          name,
-          description,
-          price,
-          salePrice,
-          category,
-          imageUrl,
-        })
-      );
-    }
 
-    setShow(false);
+    dispatch(
+      productActions.newProduct({
+        name,
+        description,
+        price,
+        salePrice,
+        category,
+        imageUrl,
+      })
+    );
   };
+
+  setShow(false);
+
   useEffect(() => {
     dispatch(authActions.getCurrentUser(accessToken));
   }, [dispatch, accessToken]);
   return (
     <>
-      {productId.length > 5 ? (
-        <Button variant="outline-success" onClick={handleShow}>
-          Edit Product
-        </Button>
-      ) : (
-        <Button variant="outline-success" onClick={handleShow}>
-          Add Product
-        </Button>
-      )}
+      <Button variant="outline-success" onClick={handleShow}>
+        Add Product
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

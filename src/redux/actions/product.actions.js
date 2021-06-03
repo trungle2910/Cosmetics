@@ -1,5 +1,7 @@
+import { toast } from "react-toastify";
 import api from "../../apiService";
 import * as types from "../constants/product.constants";
+import { routeActions } from "./route.actions";
 
 const getProducts =
   (pageNum, limit, name = null, category = null, sortBy = null) =>
@@ -51,23 +53,24 @@ const newProduct = (data) => async (dispatch) => {
   }
 };
 const editProduct =
-  (name, description, price, salePrice, category, imageUrl, productId) =>
-  async (dispatch) => {
+  (producId, name, description, price, salePrice) => async (dispatch) => {
     try {
       dispatch({ type: types.EDIT_PRODUCT_REQUEST, payload: null });
+      console.log("actionid", producId);
       const res = await api.post(
-        `/product/${productId}`,
+        `/product/${producId}`,
         name,
         description,
         price,
-        salePrice,
-        category,
-        imageUrl
+        salePrice
       );
       const pageNum = 1;
       const limit = 10;
-      dispatch(productActions.getProducts(pageNum, limit));
       dispatch({ type: types.EDIT_PRODUCT_SUCCESS, payload: res.data.data });
+      toast.success("The product has been updated!");
+
+      dispatch(productActions.getProducts(pageNum, limit));
+      dispatch(routeActions.redirect(`/product/${producId}`));
     } catch (error) {
       dispatch({ type: types.EDIT_PRODUCT_FAILURE, payload: error.message });
     }

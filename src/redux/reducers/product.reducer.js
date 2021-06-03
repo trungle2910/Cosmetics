@@ -13,12 +13,12 @@ const productReducers = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_ALL_PRODUCTS_REQUEST:
     case types.NEW_PRODUCT_REQUEST:
-    case types.EDIT_PRODUCT_REQUEST:
-    case types.EDIT_PRODUCT_SUCCESS:
-    case types.EDIT_PRODUCT_FAILURE:
     case types.DELETE_PRODUCT_REQUEST:
     case types.DELETE_PRODUCT_SUCCESS:
     case types.DELETE_PRODUCT_FAILURE:
+    case types.EDIT_PRODUCT_REQUEST:
+    case types.EDIT_PRODUCT_SUCCESS:
+    case types.EDIT_PRODUCT_FAILURE:
       return {
         ...state,
         loading: true,
