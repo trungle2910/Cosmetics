@@ -8,6 +8,7 @@ import SearchFrom from "../components/SearchForm";
 import { useHistory } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { authActions } from "../redux/actions/auth.actions";
+import logo from "../img/1c7aedf6acae45d2843f6c609c5cc1b0.png";
 
 const HomePage = () => {
   const products = useSelector((state) => state.product.products);
@@ -56,7 +57,7 @@ const HomePage = () => {
       <div style={{ height: "100%" }}>
         <div className="bg-image-home"></div>
         <div className="bg-text-home">
-          <h1 className="nav-text"> NewAge Cosmetics </h1>
+          <img src={logo} alt="" style={{ height: "20vw" }} />
         </div>
       </div>
       <Container fluid>

@@ -6,8 +6,7 @@ import AdminAllProductPage from "./AdminAllProductPage";
 const Product = () => {
   console.log("product");
   return (
-    <Container>
-      <h1>this is product page</h1>
+    <Container style={{ width: "90vw", marginTop: "2vw" }}>
       <AddEditProductPage />
       <br />
       <AdminAllProductPage />

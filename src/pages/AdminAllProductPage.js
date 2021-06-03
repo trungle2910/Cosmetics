@@ -8,8 +8,8 @@ import SearchForm from "../components/SearchForm";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import PaginationBar from "../components/PaginationBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "react-bootstrap";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "react-bootstrap";
 import AddEditProductPage from "./AddEditProductPage";
 
 const AdminAllProductPage = () => {

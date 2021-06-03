@@ -4,6 +4,8 @@ import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/actions/auth.actions";
 import { routeActions } from "../redux/actions/route.actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const LoginRegisterPage = () => {
   const [isActive, setIsActive] = useState(false);
@@ -47,7 +49,6 @@ const LoginRegisterPage = () => {
   }, [dispatch, history, redirectTo]);
   return (
     <>
-      <h1>Login and register</h1>
       <div
         className={!isActive ? "container" : "container right-panel-active"}
         style={{ width: "800px" }}
@@ -57,10 +58,10 @@ const LoginRegisterPage = () => {
             <h1>Create Account</h1>
             <div className="social-container">
               <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
+                <FontAwesomeIcon icon={faFacebook} />
               </a>
               <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
+                <FontAwesomeIcon icon={faGoogle} />
               </a>
             </div>
             <span>or use your email for registration</span>
@@ -95,10 +96,10 @@ const LoginRegisterPage = () => {
             <h1>Sign in</h1>
             <div className="social-container">
               <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
+                <FontAwesomeIcon icon={faFacebook} />
               </a>
               <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
+                <FontAwesomeIcon icon={faGoogle} />
               </a>
             </div>
             <span>or use your account</span>

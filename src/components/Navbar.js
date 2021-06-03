@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../redux/actions/auth.actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 import BackToTop from "./BackToTop";
 import { KeyboardArrowUp } from "@material-ui/icons";
 import { Fab } from "@material-ui/core";
@@ -57,11 +58,14 @@ const PublicNavbar = () => {
 
   return (
     <>
-      <Navbar style={{ backgroundColor: "#33A18F" }} expand="lg" sticky="top">
+      <Navbar className="navbarStyle" expand="lg" sticky="top">
         <Navbar.Brand as={Link} to="/" className="mr-auto"></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto"></Nav>
+          <Nav.Link as={Link} to="">
+            <FontAwesomeIcon icon={faHome} size="lg" />
+          </Nav.Link>
           {!loading && (
             <>
               {!isAuthenticated
