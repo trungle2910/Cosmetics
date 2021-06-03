@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { productActions } from "../redux/actions/product.actions";
 import { authActions } from "../redux/actions/auth.actions";
 
-const AddEditProductPage = () => {
+const AddEditProductPage = (productId) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const loading = useSelector((state) => state.product.loading);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,21 +23,35 @@ const AddEditProductPage = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  console.log("adfaf", formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, description, price, salePrice, category, imageUrl } =
       formData;
-    dispatch(
-      productActions.newProduct({
-        name,
-        description,
-        price,
-        salePrice,
-        category,
-        imageUrl,
-      })
-    );
+    if (productId.length > 5) {
+      dispatch(
+        productActions.editProduct({
+          name,
+          description,
+          price,
+          salePrice,
+          category,
+          imageUrl,
+          productId: productId,
+        })
+      );
+    } else {
+      dispatch(
+        productActions.newProduct({
+          name,
+          description,
+          price,
+          salePrice,
+          category,
+          imageUrl,
+        })
+      );
+    }
+
     setShow(false);
   };
   useEffect(() => {
@@ -46,12 +59,19 @@ const AddEditProductPage = () => {
   }, [dispatch, accessToken]);
   return (
     <>
-      <Button variant="outline-secondary" onClick={handleShow}>
-        Add Product
-      </Button>
+      {productId.length > 5 ? (
+        <Button variant="outline-success" onClick={handleShow}>
+          Edit Product
+        </Button>
+      ) : (
+        <Button variant="outline-success" onClick={handleShow}>
+          Add Product
+        </Button>
+      )}
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>ADD PRODUCT</Modal.Title>
+          <Modal.Title>PRODUCT</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>

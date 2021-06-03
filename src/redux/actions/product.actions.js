@@ -50,8 +50,44 @@ const newProduct = (data) => async (dispatch) => {
     dispatch({ type: types.NEW_PRODUCT_FAILURE, payload: error.message });
   }
 };
+const editProduct =
+  (name, description, price, salePrice, category, imageUrl, productId) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: types.EDIT_PRODUCT_REQUEST, payload: null });
+      const res = await api.post(
+        `/product/${productId}`,
+        name,
+        description,
+        price,
+        salePrice,
+        category,
+        imageUrl
+      );
+      const pageNum = 1;
+      const limit = 10;
+      dispatch(productActions.getProducts(pageNum, limit));
+      dispatch({ type: types.EDIT_PRODUCT_SUCCESS, payload: res.data.data });
+    } catch (error) {
+      dispatch({ type: types.EDIT_PRODUCT_FAILURE, payload: error.message });
+    }
+  };
+const deleteProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch({ type: types.DELETE_PRODUCT_REQUEST, payload: null });
+    const res = await api.delete(`/product/${productId}`);
+    const pageNum = 1;
+    const limit = 10;
+    dispatch(productActions.getProducts(pageNum, limit));
+    dispatch({ type: types.DELETE_PRODUCT_SUCCESS, payload: res });
+  } catch (error) {
+    dispatch({ type: types.DELETE_PRODUCT_FAILURE, payload: error.message });
+  }
+};
 export const productActions = {
   getProducts,
   getSingleProduct,
   newProduct,
+  editProduct,
+  deleteProduct,
 };
